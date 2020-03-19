@@ -81,6 +81,13 @@ Puma will automatically scale the number of threads, from the minimum until it c
 
 Be aware that additionally Puma creates threads on its own for internal purposes (e.g. handling slow clients). So, even if you specify -t 1:1, expect around 7 threads created in your application.
 
+You also can use environments variables:
+
+- PUMA_MIN_THREADS
+- PUMA_MAX_THREADS
+
+for setup min and max thread count (used if not specified command-line argument `-t`). 
+
 ### Clustered mode
 
 Puma also offers "clustered mode". Clustered mode `fork`s workers from a master process. Each child process still has its own thread pool. You can tune the number of workers with the `-w` (or `--workers`) flag:
@@ -89,6 +96,7 @@ Puma also offers "clustered mode". Clustered mode `fork`s workers from a master 
 $ puma -t 8:32 -w 3
 ```
 
+Or environment variable `PUMA_WORKERS`
 Note that threads are still used in clustered mode, and the `-t` thread flag setting is per worker, so `-w 2 -t 16:16` will spawn 32 threads in total, with 16 in each worker process.
 
 In clustered mode, Puma can "preload" your application. This loads all the application code *prior* to forking. Preloading reduces total memory usage of your application via an operating system feature called [copy-on-write](https://en.wikipedia.org/wiki/Copy-on-write) (Ruby 2.0+ only). Use the `--preload` flag from the command line:
@@ -150,6 +158,8 @@ Bind Puma to a socket with the `-b` (or `--bind`) flag:
 ```
 $ puma -b tcp://127.0.0.1:9292
 ```
+
+Or use environment variable `PUMA_TCP_PORT` for setup TCP port.
 
 To use a UNIX Socket instead of TCP:
 

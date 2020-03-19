@@ -10,7 +10,7 @@ module Puma
     DefaultRackup = "config.ru"
 
     DefaultTCPHost = "0.0.0.0"
-    DefaultTCPPort = 9292
+    DefaultTCPPort = (ENV['PUMA_TCP_PORT'] || 9292).to_i
     DefaultWorkerTimeout = 60
     DefaultWorkerShutdownTimeout = 30
   end
@@ -169,12 +169,12 @@ module Puma
 
     def puma_default_options
       {
-        :min_threads => 0,
-        :max_threads => 16,
+        :min_threads => -> { (ENV['PUMA_MIN_THREADS'] || 0).to_i },
+        :max_threads => -> { (ENV['PUMA_MAX_THREADS'] || 16).to_i },
         :log_requests => false,
         :debug => false,
         :binds => ["tcp://#{DefaultTCPHost}:#{DefaultTCPPort}"],
-        :workers => 0,
+        :workers => -> { (ENV['PUMA_WORKERS'] || 0).to_i },
         :mode => :http,
         :worker_timeout => DefaultWorkerTimeout,
         :worker_boot_timeout => DefaultWorkerTimeout,

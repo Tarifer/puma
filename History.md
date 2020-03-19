@@ -7,6 +7,11 @@
   * `GC.compact` is called before fork if available (#2093)
   * Add `requests_count` to workers stats. (#2106)
   * Increases maximum URI path length from 2048 to 8196 bytes (#2167)
+  * Append reading default configuration parameters from environment_variables:
+    * `PUMA_TCP_PORT` (default 9292)
+    * `PUMA_MIN_THREADS` (default 0)
+    * `PUMA_MAX_THREADS` (default 16)
+    * `PUMA_WORKERS` (default 0)
 
 * Deprecations, Removals and Breaking API Changes
   * `Puma.stats` now returns a Hash instead of a JSON string (#2086)
